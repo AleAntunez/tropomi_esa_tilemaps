@@ -23,17 +23,19 @@ def download_url(baseUrl, zoom, xtile, ytile):
 		os.makedirs(dir_path)
 	
 	if(not os.path.isfile(download_path)):
-		print "downloading %r" % url
+		#print "downloading %r" % url
 		source = urllib2.urlopen(url)
 		content = source.read()
 		source.close()
 		destination = open(download_path,'wb')
 		destination.write(content)
 		destination.close()
-	else: print "skipped %r" % url
+	else: 
+		pass
+		#print "skipped %r" % url
 
 def downloadDate(date):
-	print("Downloading date %s" % date)
+	#print("Downloading date %s" % date)
 	for zoom in range(0,5):
 		for x in range(0, pow(2,zoom)):
 			for y in range(0, pow(2,zoom)):                
