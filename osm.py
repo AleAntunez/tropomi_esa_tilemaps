@@ -7,6 +7,7 @@ import urllib2
 import random
 import os.path
 import threading
+import json
 
 def download_url(baseUrl, zoom, xtile, ytile):
 	# Switch between otile1 - otile4
@@ -54,13 +55,23 @@ def main():
 	content = content[:content.index("];")]
 	senseDatesRaw = content.split("L.tileLayer(")
 	senseDates = []
+	datesJSON = []
 	for rL in senseDatesRaw:
 		sensingDate = rL.strip()
 		if sensingDate != "":
-			senseDates.append(sensingDate.split(",")[0][1:-1])
+			baseUrl = sensingDate.split(",")[0][1:-1]
+			senseDates.append(baseUrl)
+			dateCode = baseUrl[:baseUrl.index("/{z}/{x}/{y}")]
+			dateCode = dateCode[dateCode.rfind("/")+1:]
+			datesJSON.append(dateCode)
+
+	destination = open("sensing_dates.json",'w')
+	destination.write(json.dumps(datesJSON))
+	destination.close()
+	return
 
 	for date in senseDates:
 		th = threading.Thread(target=downloadDate, args=[date])
 		th.start()
 	
-main()    
+main()
