@@ -68,7 +68,6 @@ def main():
 	destination = open("sensing_dates.json",'w')
 	destination.write(json.dumps(datesJSON))
 	destination.close()
-	return
 
 	for date in senseDates:
 		th = threading.Thread(target=downloadDate, args=[date])
